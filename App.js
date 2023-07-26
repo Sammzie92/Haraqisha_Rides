@@ -1,4 +1,5 @@
-import { SafeAreaView, Text, View } from 'react-native';
+import { KeyboardAvoidingView } from 'react-native';
+import React from 'react';
 import tw from 'tailwind-react-native-classnames';
 import { Provider } from 'react-redux';
 import { store } from './store';
@@ -9,6 +10,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import MapScreen from './screens/MapScreen';
 import EatScreen from './screens/EatScreen';
+import { Platform } from 'react-native';
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -16,6 +18,11 @@ export default function App() {
     <Provider store={store} >
       <NavigationContainer>
       <SafeAreaProvider>
+        <KeyboardAvoidingView 
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={tw`flex-1`} 
+        keyboardVerticalOffset={Platform.OS === "ios" ? -64 : 0}
+        >
         <Stack.Navigator>
           <Stack.Screen
           name='Home Screen'
@@ -39,7 +46,8 @@ export default function App() {
           }}
           />
           
-        </Stack.Navigator>        
+        </Stack.Navigator> 
+        </KeyboardAvoidingView>       
     </SafeAreaProvider>
     </NavigationContainer>
     </Provider>
